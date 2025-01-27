@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:37:32 by astefane          #+#    #+#             */
-/*   Updated: 2025/01/18 20:09:46 by astefane         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:38:00 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@
 # include "./libft/libft.h"
 
 # define ERR_FLASH "Error"
-
+# define ERR_ARG "Error Arg or Pipe"
+# define ERR_FORK "Error Fork"
+# define ERRO_INFILE "Error infile"
+# define ERRO_DUP "Error DUP"
+# define ERRO_OUFILE "Error outfile"
 
 typedef struct s_fd_pipex
 {
@@ -36,5 +40,8 @@ typedef struct s_fd_pipex
 
 void	ft_cmd(char *argv, char **envir);
 int		arg_isvalid(int argc, char **argv);
+char	**cmd_managment(char *cmd);
+char	*find_execpath(char **envir);
+char	*create_path(char *possible_path, char *command);
 
 #endif

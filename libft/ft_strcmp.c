@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 18:30:11 by astefane          #+#    #+#             */
-/*   Updated: 2025/01/24 19:01:29 by astefane         ###   ########.fr       */
+/*   Created: 2025/01/27 17:59:38 by astefane          #+#    #+#             */
+/*   Updated: 2025/01/27 18:00:35 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
-
-int	arg_isvalid(int argc, char **argv)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
-	int	value;
 
 	i = 0;
-	value = 1;
-	while (argv[i])
-	{
-		if (!argv[i] || !ft_strcmp(argv[i], ""))
-		{
-			value = 0;
-			break ;
-		}
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
 		i++;
-	}
-	if (argc != 5)
-		value = 0;
-	return (value);
+	return (s1[i] - s2[i]);
 }

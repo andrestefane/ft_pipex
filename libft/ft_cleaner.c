@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check.c                                         :+:      :+:    :+:   */
+/*   ft_cleaner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 18:30:11 by astefane          #+#    #+#             */
-/*   Updated: 2025/01/24 19:01:29 by astefane         ###   ########.fr       */
+/*   Created: 2025/01/20 17:08:16 by astefane          #+#    #+#             */
+/*   Updated: 2025/01/20 17:12:55 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pipex.h"
+#include "libft.h"
 
-int	arg_isvalid(int argc, char **argv)
+char	*ft_cleaner(char *str, char r)
 {
-	int	i;
-	int	value;
+	char	*temp;
+	int		i;
+	int		j;
+	int		len;
 
-	i = 0;
-	value = 1;
-	while (argv[i])
+	len = ft_strlen(str);
+	if (!str || !*str)
+		return (NULL);
+	temp = (char *)malloc(len + 1);
+	if (!temp)
+		return (NULL);
+	while (str[i] != '\0')
 	{
-		if (!argv[i] || !ft_strcmp(argv[i], ""))
-		{
-			value = 0;
-			break ;
-		}
+		if (str[i] != r)
+			temp[j++] = str[i];
 		i++;
 	}
-	if (argc != 5)
-		value = 0;
-	return (value);
+	temp[j] = '\0';
+	free(str);
+	return (temp);
 }

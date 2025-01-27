@@ -6,7 +6,7 @@
 #    By: astefane <astefane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 17:31:38 by astefane          #+#    #+#              #
-#    Updated: 2025/01/18 20:14:19 by astefane         ###   ########.fr        #
+#    Updated: 2025/01/27 18:51:36 by astefane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,9 @@ ft_strtrim.c \
 ft_substr.c \
 ft_tolower.c \
 ft_toupper.c \
-ft_freedoom \
+ft_freedom.c \
+ft_cleaner.c \
+ft_strcmp.c \
 
 OBJS			= $(SRCS:.c=.o)
 

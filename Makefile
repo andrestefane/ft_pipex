@@ -4,11 +4,16 @@ LIBFT = libft
 LIBFT_DIR = libft/
 LIBFT_LIB = $(LIBFT_DIR)libft.a
 
-SRCS = ft_pipex.c
+SRCS =	\
+		ft_pipex.c \
+		ft_check.c \
+		ft_getpath.c \
+		ft_pipex_utils.c \
+		
 
 OBJS = $(SRCS:.c=.o)
 
-NAME = pipex
+NAME = pipex 
 
 all: $(NAME)
 
