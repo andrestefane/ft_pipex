@@ -6,8 +6,6 @@ LIBFT_LIB = $(LIBFT_DIR)libft.a
 
 SRCS =	\
 		ft_pipex.c \
-		ft_check.c \
-		ft_getpath.c \
 		ft_pipex_utils.c \
 		
 

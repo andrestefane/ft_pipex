@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:37:32 by astefane          #+#    #+#             */
-/*   Updated: 2025/01/27 15:38:00 by astefane         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:54:29 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ int		arg_isvalid(int argc, char **argv);
 char	**cmd_managment(char *cmd);
 char	*find_execpath(char **envir);
 char	*create_path(char *possible_path, char *command);
+void	free_and_exit(char **args, char **paths, int exit_code);
+void	execute_command(char **args, char **paths, char **envir);
 
 #endif

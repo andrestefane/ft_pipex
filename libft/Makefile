@@ -6,7 +6,7 @@
 #    By: astefane <astefane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 17:31:38 by astefane          #+#    #+#              #
-#    Updated: 2025/01/27 18:51:36 by astefane         ###   ########.fr        #
+#    Updated: 2025/02/01 18:50:17 by astefane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ ft_lstsize_bonus.c \
 
 BONUS_OBJS		= $(BONUS:.c=.o)
 
-CC				= gcc
+CC				= cc
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror -I.
 
