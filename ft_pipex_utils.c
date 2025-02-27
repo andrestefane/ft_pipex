@@ -6,11 +6,12 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:06:04 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/01 20:24:59 by astefane         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:30:58 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
+#include "libft/libft.h"
 
 void	ft_cmd(char *argv, char **envir)
 {
@@ -22,18 +23,18 @@ void	ft_cmd(char *argv, char **envir)
 		return ;
 	args = cmd_managment(argv);
 	if (!args)
-		exit(1);
+		exit(EXIT_FAILURE);
 	path_line = find_execpath(envir);
 	if (!path_line)
 	{
 		ft_freedoom(args);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	possible_paths = ft_split(path_line, ':');
 	if (!possible_paths)
 	{
 		ft_freedoom(args);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	execute_command(args, possible_paths, envir);
 }
@@ -59,7 +60,7 @@ char	**cmd_managment(char *cmd)
 	{
 		cmd_split = malloc(sizeof(char *) * 3);
 		if (!cmd_split)
-			return (NULL);
+			exit (EXIT_FAILURE);
 		cmd_split[0] = cmd_only;
 		cmd_split[1] = ft_strtrim(arg_only, "'");
 		cmd_split[2] = NULL;
@@ -77,7 +78,7 @@ char	*find_execpath(char **envir)
 		i++;
 	path = envir[i];
 	if (!envir[i])
-		return (NULL);
+		exit (1);
 	return (path);
 }
 
@@ -93,7 +94,7 @@ void	execute_command(char **args, char **paths, char **envir)
 	{
 		path = create_path(paths[i], args[0]);
 		if (!path)
-			free_and_exit(args, paths, 1);
+			free_and_exit(args, paths, 0);
 		if (access(path, X_OK) != -1)
 			execve(path, args, envir);
 		free(path);

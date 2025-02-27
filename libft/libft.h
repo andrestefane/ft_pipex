@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:05:07 by astefane          #+#    #+#             */
-/*   Updated: 2025/01/27 18:50:09 by astefane         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:30:04 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_freedoom(char **str);
 char	*ft_cleaner(char *str, char r);
+int		arg_isvalid(int argc, char **argv);
+void	free_and_exit(char **args, char **paths, int exit_code);
 
 typedef struct s_list
 {

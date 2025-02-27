@@ -1,39 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cleaner.c                                       :+:      :+:    :+:   */
+/*   free_and_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:08:16 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/25 16:00:59 by astefane         ###   ########.fr       */
+/*   Created: 2025/02/27 18:29:27 by astefane          #+#    #+#             */
+/*   Updated: 2025/02/27 18:29:47 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_cleaner(char *str, char r)
+void	free_and_exit(char **args, char **paths, int exit_code)
 {
-	char	*temp;
-	int		i;
-	int		j;
-	int		len;
-
-	j = 0;
-	i = 0;
-	len = ft_strlen(str);
-	if (!str || !*str)
-		return (NULL);
-	temp = (char *)malloc(len + 1);
-	if (!temp)
-		return (NULL);
-	while (str[i] != '\0')
-	{
-		if (str[i] != r)
-			temp[j++] = str[i];
-		i++;
-	}
-	temp[j] = '\0';
-	free(str);
-	return (temp);
+	ft_freedoom(args);
+	ft_freedoom(paths);
+	exit(exit_code);
 }

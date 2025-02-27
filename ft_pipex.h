@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:37:32 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/01 19:54:29 by astefane         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:06:50 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ typedef struct s_fd_pipex
 }	t_fd_pipex;
 
 void	ft_cmd(char *argv, char **envir);
-int		arg_isvalid(int argc, char **argv);
 char	**cmd_managment(char *cmd);
 char	*find_execpath(char **envir);
-char	*create_path(char *possible_path, char *command);
-void	free_and_exit(char **args, char **paths, int exit_code);
 void	execute_command(char **args, char **paths, char **envir);
+char	*create_path(char *possible_path, char *command);
+void	create_child(t_fd_pipex *pipex, char **argv,
+			char **envir, int is_parent);
+int		wait_for_children(pid_t child1, pid_t child2);
+void	ft_children_fd(char **argv, t_fd_pipex pipex);
+void	ft_parent_fd(char **argv, t_fd_pipex pipex);
 
 #endif

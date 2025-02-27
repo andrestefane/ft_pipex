@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cleaner.c                                       :+:      :+:    :+:   */
+/*   valid_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:08:16 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/25 16:00:59 by astefane         ###   ########.fr       */
+/*   Created: 2025/02/27 16:53:49 by astefane          #+#    #+#             */
+/*   Updated: 2025/02/27 16:56:25 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_cleaner(char *str, char r)
+int	arg_isvalid(int argc, char **argv)
 {
-	char	*temp;
-	int		i;
-	int		j;
-	int		len;
+	int	i;
+	int	value;
 
-	j = 0;
 	i = 0;
-	len = ft_strlen(str);
-	if (!str || !*str)
-		return (NULL);
-	temp = (char *)malloc(len + 1);
-	if (!temp)
-		return (NULL);
-	while (str[i] != '\0')
+	value = 1;
+	while (argv[i])
 	{
-		if (str[i] != r)
-			temp[j++] = str[i];
+		if (!argv[i] || !ft_strcmp(argv[i], ""))
+		{
+			value = 0;
+			break ;
+		}
 		i++;
 	}
-	temp[j] = '\0';
-	free(str);
-	return (temp);
+	if (argc != 5)
+		value = 0;
+	return (value);
 }
