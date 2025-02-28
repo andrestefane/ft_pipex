@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:37:32 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/27 18:06:50 by astefane         ###   ########.fr       */
+/*   Updated: 2025/02/28 19:29:10 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 # include <sys/wait.h>
 # include "./libft/libft.h"
 
-# define ERR_FLASH "Error"
-# define ERR_ARG "Error Arg or Pipe"
+# define ERR_FLASH "Command not found"
+# define ERR_ARG "Error Arg"
+# define ERR_PIPE "Error Pipe"
 # define ERR_FORK "Error Fork"
 # define ERRO_INFILE "Error infile"
 # define ERRO_DUP "Error DUP"
@@ -43,7 +44,7 @@ char	**cmd_managment(char *cmd);
 char	*find_execpath(char **envir);
 void	execute_command(char **args, char **paths, char **envir);
 char	*create_path(char *possible_path, char *command);
-void	create_child(t_fd_pipex *pipex, char **argv,
+pid_t	create_child(t_fd_pipex *pipex, char **argv,
 			char **envir, int is_parent);
 int		wait_for_children(pid_t child1, pid_t child2);
 void	ft_children_fd(char **argv, t_fd_pipex pipex);

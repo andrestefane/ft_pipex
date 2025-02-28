@@ -6,38 +6,11 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:37:18 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/27 19:02:35 by astefane         ###   ########.fr       */
+/*   Updated: 2025/02/28 20:04:50 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
-
-void	create_child(t_fd_pipex *pipex, char **argv,
-char **envir, int is_parent)
-{
-	pid_t	child;
-
-	child = fork();
-	if (child == -1)
-	{
-		perror(ERR_FORK);
-		exit(EXIT_FAILURE);
-	}
-	if (child == 0)
-	{
-		if (is_parent)
-		{
-			ft_parent_fd(argv, *pipex);
-			ft_cmd(argv[3], envir);
-		}
-		else
-		{
-			ft_children_fd(argv, *pipex);
-			ft_cmd(argv[2], envir);
-		}
-		exit(EXIT_FAILURE);
-	}
-}
 
 int	wait_for_children(pid_t child1, pid_t child2)
 {
@@ -76,6 +49,34 @@ void	ft_children_fd(char **argv, t_fd_pipex pipex)
 	close(pipex.pipefd[1]);
 }
 
+pid_t	create_child(t_fd_pipex *pipex, char **argv,
+	char **envir, int is_parent)
+{
+	pid_t	child;
+
+	child = fork();
+	if (child == -1)
+	{
+		perror(ERR_FORK);
+		exit(EXIT_FAILURE);
+	}
+	if (child == 0)
+	{
+		if (is_parent)
+		{
+			ft_parent_fd(argv, *pipex);
+			ft_cmd(argv[3], envir);
+		}
+		else
+		{
+			ft_children_fd(argv, *pipex);
+			ft_cmd(argv[2], envir);
+		}
+		exit(EXIT_FAILURE);
+	}
+	return (child);
+}
+
 void	ft_parent_fd(char **argv, t_fd_pipex pipex)
 {
 	int	out_fd;
@@ -107,17 +108,19 @@ int	main(int argc, char **argv, char **envir)
 	pid_t		child1;
 	pid_t		child2;
 
-	child1 = 0;
-	child2 = 0;
-
 	pipex = (t_fd_pipex){0};
-	if (arg_isvalid(argc, argv) == 0 || pipe(pipex.pipefd) == -1)
+	if (arg_isvalid(argc, argv) == 0)
 	{
 		perror(ERR_ARG);
 		exit(EXIT_FAILURE);
 	}
-	create_child(&pipex, argv, envir, 0);
-	create_child(&pipex, argv, envir, 1);
+	if (pipe(pipex.pipefd) == -1)
+	{
+		perror(ERR_PIPE);
+		exit(EXIT_FAILURE);
+	}
+	child1 = create_child(&pipex, argv, envir, 0);
+	child2 = create_child(&pipex, argv, envir, 1);
 	close(pipex.pipefd[0]);
 	close(pipex.pipefd[1]);
 	return (wait_for_children(child1, child2));
