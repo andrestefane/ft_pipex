@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_arg.c                                        :+:      :+:    :+:   */
+/*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 16:53:49 by astefane          #+#    #+#             */
-/*   Updated: 2025/03/07 16:51:02 by astefane         ###   ########.fr       */
+/*   Created: 2025/03/08 16:25:33 by astefane          #+#    #+#             */
+/*   Updated: 2025/03/08 16:25:47 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	arg_isvalid(int argc, char **argv)
+char	**split_command(char *cmd)
 {
-	int	i;
-	int	value;
+	char	**cmd_split;
 
-	i = 0;
-	value = 1;
-	(void)argc;
-	while (argv[i])
+	cmd_split = ft_split(cmd, ' ');
+	if (!cmd_split || !cmd_split[0])
 	{
-		if (!argv[i] || !ft_strcmp(argv[i], ""))
-		{
-			value = 0;
-			break ;
-		}
-		i++;
+		ft_freedoom(cmd_split);
+		return (NULL);
 	}
-	if (argc != 5)
-		value = 0;
-	return (value);
+	return (cmd_split);
 }

@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:37:18 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/28 20:04:50 by astefane         ###   ########.fr       */
+/*   Updated: 2025/03/08 16:36:16 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,26 @@ void	ft_children_fd(char **argv, t_fd_pipex pipex)
 {
 	int	in_fd;
 
+	if (!argv[1])
+	{
+		close(pipex.pipefd[0]);
+		close(pipex.pipefd[1]);
+		exit_with_error(ERRO_INFILE, 1);
+	}
 	in_fd = open(argv[1], O_RDONLY, 0644);
 	if (in_fd < 0)
 	{
-		perror(ERRO_INFILE);
 		close(pipex.pipefd[0]);
 		close(pipex.pipefd[1]);
-		exit(EXIT_FAILURE);
+		exit_with_error(ERRO_INFILE, 1);
 	}
 	close(pipex.pipefd[0]);
 	if (dup2(in_fd, STDIN_FILENO) == -1
 		|| dup2(pipex.pipefd[1], STDOUT_FILENO) == -1)
 	{
-		perror(ERRO_DUP);
 		close(in_fd);
 		close(pipex.pipefd[1]);
-		exit(EXIT_FAILURE);
+		exit_with_error(ERRO_DUP, 1);
 	}
 	close(in_fd);
 	close(pipex.pipefd[1]);
@@ -56,10 +60,7 @@ pid_t	create_child(t_fd_pipex *pipex, char **argv,
 
 	child = fork();
 	if (child == -1)
-	{
-		perror(ERR_FORK);
-		exit(EXIT_FAILURE);
-	}
+		exit_with_error(ERR_FORK, 1);
 	if (child == 0)
 	{
 		if (is_parent)
@@ -72,7 +73,7 @@ pid_t	create_child(t_fd_pipex *pipex, char **argv,
 			ft_children_fd(argv, *pipex);
 			ft_cmd(argv[2], envir);
 		}
-		exit(EXIT_FAILURE);
+		exit_with_error(ERR_FORK, 1);
 	}
 	return (child);
 }
@@ -81,22 +82,26 @@ void	ft_parent_fd(char **argv, t_fd_pipex pipex)
 {
 	int	out_fd;
 
+	if (!argv[4])
+	{
+		close(pipex.pipefd[0]);
+		close(pipex.pipefd[1]);
+		exit_with_error(ERRO_OUFILE, 1);
+	}
 	out_fd = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (out_fd < 0)
 	{
-		perror(ERRO_OUFILE);
 		close(pipex.pipefd[0]);
 		close(pipex.pipefd[1]);
-		exit(EXIT_FAILURE);
+		exit_with_error(ERRO_OUFILE, 1);
 	}
 	close(pipex.pipefd[1]);
 	if (dup2(pipex.pipefd[0], STDIN_FILENO) == -1
 		|| dup2(out_fd, STDOUT_FILENO) == -1)
 	{
-		perror(ERRO_DUP);
 		close(out_fd);
 		close(pipex.pipefd[0]);
-		exit(EXIT_FAILURE);
+		exit_with_error(ERRO_DUP, 1);
 	}
 	close(out_fd);
 	close(pipex.pipefd[0]);
@@ -109,16 +114,9 @@ int	main(int argc, char **argv, char **envir)
 	pid_t		child2;
 
 	pipex = (t_fd_pipex){0};
-	if (arg_isvalid(argc, argv) == 0)
-	{
-		perror(ERR_ARG);
-		exit(EXIT_FAILURE);
-	}
+	(void)argc;
 	if (pipe(pipex.pipefd) == -1)
-	{
-		perror(ERR_PIPE);
-		exit(EXIT_FAILURE);
-	}
+		exit_with_error(ERR_PIPE, 1);
 	child1 = create_child(&pipex, argv, envir, 0);
 	child2 = create_child(&pipex, argv, envir, 1);
 	close(pipex.pipefd[0]);

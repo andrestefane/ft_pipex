@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:06:04 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/28 19:43:32 by astefane         ###   ########.fr       */
+/*   Updated: 2025/03/08 18:38:38 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 //Possible_path divide el PATH usando ; como delimitador.
 //Esto se hace para buscador ejecutables en directorios especificos.
+
 
 void	ft_cmd(char *argv, char **envir)
 {
@@ -25,19 +26,19 @@ void	ft_cmd(char *argv, char **envir)
 	if (!envir || !*envir)
 		return ;
 	args = cmd_managment(argv);
-	if (!args)
-		exit(EXIT_FAILURE);
+	if (!args || !*args)
+		exit_with_error(ERR_FLASH, 127);
 	path_line = find_execpath(envir);
 	if (!path_line)
 	{
 		ft_freedoom(args);
-		exit(EXIT_FAILURE);
+		exit_with_error(ERR_FLASH, 1);
 	}
 	possible_paths = ft_split(path_line, ':');
 	if (!possible_paths)
 	{
 		ft_freedoom(args);
-		exit(EXIT_FAILURE);
+		exit_with_error(ERR_FLASH, 1);
 	}
 	execute_command(args, possible_paths, envir);
 }
@@ -54,27 +55,27 @@ char	**cmd_managment(char *cmd)
 	char	*cmd_only;
 	char	*arg_only;
 
+	if (!cmd || !*cmd)
+		exit_with_error(ERR_FLASH, 127);
 	cmd_split = ft_split(cmd, ' ');
+	if (!cmd_split || !cmd_split[0])
+	{
+		ft_freedoom(cmd_split);
+		return (NULL);
+	}
 	cmd_only = ft_strdup(cmd_split[0]);
 	ft_freedoom(cmd_split);
-	arg_only = (ft_strchr(cmd, 39));
-	if (arg_only == NULL)
-		arg_only = ft_strchr(cmd, 34);
-	if (arg_only == NULL)
+	arg_only = ft_strchr(cmd, 39);
+	if (!arg_only)
 	{
 		free(cmd_only);
-		return (ft_split(cmd, ' '));
+		return (split_command(cmd));
 	}
-	else
-	{
-		cmd_split = malloc(sizeof(char *) * 3);
-		if (!cmd_split)
-			exit (EXIT_FAILURE);
-		cmd_split[0] = cmd_only;
-		cmd_split[1] = ft_strtrim(arg_only, "'");
-		cmd_split[2] = NULL;
-		return (cmd_split);
-	}
+	cmd_split = malloc(sizeof(char *) * 3);
+	if (!cmd_split)
+		exit_with_error(ERR_FLASH, 1);
+	cmd_split = (char *[]){cmd_only, ft_strtrim(arg_only, "'"), NULL};
+	return (cmd_split);
 }
 
 //*path se usa para almacenar el puntero a la variable de entorno PATH
@@ -104,6 +105,7 @@ char	*find_execpath(char **envir)
 //Verifica con access si la ruta existe y ejecutable
 //Execve remplaza el proceso actual por el nuevo comando
 //Si no se ejecuta liberamos y damos error
+
 void	execute_command(char **args, char **paths, char **envir)
 {
 	char	*path;
@@ -126,9 +128,11 @@ void	execute_command(char **args, char **paths, char **envir)
 	perror(args[0]);
 	free_and_exit(args, paths, 127);
 }
+
 //Construye una ruta completa a un comando combinando un directorio de PATH con el nombre del comando
 //Concadenamos el directorio con '/'
 //concadenamos el resultado con el comando
+
 
 char	*create_path(char *possible_path, char *command)
 {

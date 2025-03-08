@@ -6,7 +6,7 @@
 #    By: astefane <astefane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 17:31:38 by astefane          #+#    #+#              #
-#    Updated: 2025/02/27 18:30:16 by astefane         ###   ########.fr        #
+#    Updated: 2025/03/08 16:39:25 by astefane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,9 @@ ft_freedom.c \
 ft_cleaner.c \
 ft_strcmp.c \
 valid_arg.c \
-free_and_exit.c 
+free_and_exit.c \
+split_command.c \
+exit_with_error.c
 
 OBJS			= $(SRCS:.c=.o)
 

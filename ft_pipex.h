@@ -6,7 +6,7 @@
 /*   By: astefane <astefane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 19:37:32 by astefane          #+#    #+#             */
-/*   Updated: 2025/02/28 19:29:10 by astefane         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:49:41 by astefane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <sys/wait.h>
 # include "./libft/libft.h"
 
-# define ERR_FLASH "Command not found"
-# define ERR_ARG "Error Arg"
+# define ERR_FLASH "Error"
+# define ERR_ARG "Error Arg or Pipe"
 # define ERR_PIPE "Error Pipe"
 # define ERR_FORK "Error Fork"
 # define ERRO_INFILE "Error infile"
